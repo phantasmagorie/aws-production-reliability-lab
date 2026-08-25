@@ -16,11 +16,9 @@ Milestone: M0 - Preflight and guardrails
 - ADR-0001 records the us-east-1 decision; docs/cost-controls.md records
   the tagging convention and destroy policy
 
-## Accepted risk, with deadline
-- No MFA on the root user or the admin user. Deadline 2026-08-24.
-- Verify at the start of every session:
-  aws iam get-account-summary --profile lab --query 'SummaryMap.AccountMFAEnabled'
-  Expected: 1
+## Accepted risk
+- Identity hardening for the root and administrative identities is tracked privately,
+  outside this repository, together with its verification procedure and target date.
 
 ## Next actions
 - Reusable evidence capture script under scripts/

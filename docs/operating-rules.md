@@ -118,11 +118,13 @@ scope for the first release. One service, proven end to end, comes first.
 
 ## Open items
 
-- No MFA on the root user or the admin identity. Accepted risk, deadline 2026-08-24.
+- Second-factor coverage for the root and administrative identities is tracked
+  privately, outside this repository. The measurement gap is the part worth publishing:
   `aws iam get-account-summary --profile lab --query 'SummaryMap.AccountMFAEnabled'`
-  covers the root user only. The admin is an Identity Center directory user and no CLI
-  check for its MFA has been found, so it remains a manual console verification. All
-  checks passing is not the same as the account being protected.
+  covers the root user only. The administrative identity is an Identity Center directory
+  user and no CLI check for its second factor has been found, so it remains a manual
+  console verification. All checks passing is not the same as the account being
+  protected.
 - Two claims still rest on inference and need the authoritative check, recorded at the
   end of `PLAN.md`: Identity Center Single-Region, and organization instance versus
   account instance.
@@ -255,12 +257,14 @@ de escopo do primeiro release. Um servico, provado ponta a ponta, vem primeiro.
 
 ## Itens em aberto
 
-- Sem MFA no usuario root nem na identidade administrativa. Risco aceito, prazo
-  2026-08-24. O comando
+- A cobertura de segundo fator das identidades root e administrativa e acompanhada de
+  forma privada, fora deste repositorio. A lacuna de medicao e a parte que vale
+  publicar: o comando
   `aws iam get-account-summary --profile lab --query 'SummaryMap.AccountMFAEnabled'`
-  cobre apenas o root. O admin e usuario do diretorio do Identity Center e nenhuma
-  verificacao por CLI do seu MFA foi encontrada, entao permanece checagem manual no
-  console. Todos os checks passando nao e o mesmo que a conta estar protegida.
+  cobre apenas o root. A identidade administrativa e usuario do diretorio do Identity
+  Center e nenhuma verificacao por CLI do seu segundo fator foi encontrada, entao
+  permanece checagem manual no console. Todos os checks passando nao e o mesmo que a
+  conta estar protegida.
 - Duas afirmacoes ainda repousam em inferencia e precisam da verificacao autoritativa,
   registrada no fim do `PLAN.md`: Single-Region do Identity Center, e instancia de
   organizacao versus instancia de conta.

@@ -17,16 +17,17 @@ clusters, ECR repositories and non-default VPCs all report zero
 (`evidence/m0-preflight/04-resource-inventory.txt`). The account holds identity,
 budget and tagging configuration only, none of which bills.
 
-The M0 baseline runs eight automated checks: seven pass, one fails. The failure
-is root MFA, carried deliberately as an accepted risk with a deadline rather than
-quietly deferred (`evidence/m0-preflight/00-summary.txt`).
+The M0 baseline runs eight automated checks against the account, captured in
+`evidence/m0-preflight/00-summary.txt`. Findings are carried as explicit accepted risks
+with an owner and a target date rather than quietly deferred. Findings specific to this
+account are tracked privately.
 
 What comes next, in order:
 
-1. Enable MFA on the root user and the admin user - blocked, deadline 2026-08-24.
-   The admin half has no check behind it yet: the baseline's MFA row reads the root
-   flag only, and the admin is an Identity Center user, so enabling root MFA alone
-   turns the summary all-green while leaving that gap open.
+1. Close the identity hardening item tracked privately. It exposed a measurement gap
+   worth stating: the baseline's second-factor row reads the root flag only, and the
+   administrative identity is an Identity Center directory user, so that row turning
+   green would not by itself prove the administrative identity is covered.
 2. Create the public GitHub remote and push. The repository is local-only today.
 3. Sign off M0, then start M1 and provision the first NAT Gateway, which is the
    first resource in this project that bills by the hour.
@@ -62,8 +63,8 @@ account is protected".
 
 | # | Task | Status | Acceptance criteria |
 |---|---|---|---|
-| 0.1a | MFA on the root user | `[!]` | `SummaryMap.AccountMFAEnabled` returns `1`, flipping the summary's only FAIL row to PASS. Deadline 2026-08-24 |
-| 0.1b | MFA on the admin (Identity Center) user | `[!]` | No proof exists for this yet, and that is the finding: `AccountMFAEnabled` is the root flag only, and the admin is an Identity Center user rather than an IAM user (`IAM users: 0`), so no IAM MFA device for it can ever appear in `get-account-summary`. Needs 0.18 first. Deadline 2026-08-24 |
+| 0.1a | Root identity second factor | `[~]` | Tracked privately; acceptance criteria and target date held outside this repository |
+| 0.1b | Administrative identity second factor | `[~]` | Tracked privately. The measurement gap is the publishable finding: `AccountMFAEnabled` is an IAM root flag, and the administrative identity is an Identity Center directory user rather than an IAM user (`IAM users: 0`), so it can never appear in `get-account-summary`. Needs 0.18 first |
 | 0.2 | Create the public GitHub remote and push | `[ ]` | `git remote -v` resolves; history pushed; no secret or personal figure present in any reachable commit |
 | 0.3 | M0 acceptance review | `[~]` | This PLAN.md and `docs/skills-demonstrated.md` exist and every claim traces to a file; 0.1 and 0.2 closed |
 | 0.4 | Scaffold repository, guardrails and initial state | `[x]` | Directory skeleton, secret-denying `.gitignore`, README, `PROJECT_STATE.md` committed (`fadcb0d`) |
@@ -80,7 +81,7 @@ account is protected".
 | 0.15 | Zero-billable-resource baseline before provisioning | `[x]` | Seven resource classes all report zero (`evidence/m0-preflight/04-resource-inventory.txt`) |
 | 0.16 | Confirm zero customer managed KMS keys | `[x]` | `kms list-keys` returns `[]` (`evidence/m0-preflight/02-account-security.txt`), so no per-key monthly charge exists. This is a key-inventory fact and its cost consequence; it is not on its own proof of the Identity Center replication configuration |
 | 0.17 | Close the Identity Center evidence gap | `[ ]` | Widen the `sso-admin list-instances` projection to include `OwnerAccountId` and `IdentityStoreId`, and capture the primary Region explicitly, so 0.6's instance type and Region stop being prose-only. The instance ARN carries no Region, so it cannot supply this |
-| 0.18 | Give admin MFA a defined check | `[ ]` | Baseline queries Identity Center MFA state, so 0.1b has a proof condition instead of none. Until then the summary can read 8 PASS with the admin still unprotected |
+| 0.18 | Give the administrative identity a defined second-factor check | `[ ]` | Baseline queries Identity Center MFA state, so 0.1b has a proof condition instead of none. Until then an all-pass summary would not cover that identity |
 
 ## M1 - Network foundation
 
@@ -259,3 +260,23 @@ remaining four are planned and currently unproven, which is exactly what
   defensavel para "quando cada um e a escolha certa", nao um segundo deploy. Exige M2
   ate M5 concluidos em ECS antes, caso contrario nao existe linha de base para
   comparar. Opcional e sem escopo definido.
+
+- **M9 — EC2 host operations (optional, post-project).** Fargate abstracts the
+  operating system, so nothing in M0 through M6 exercises host-level administration.
+  This module closes that gap deliberately: one `t4g.micro` instance (~USD 0.008/h),
+  access through SSM Session Manager rather than SSH or a public address, patching
+  through Systems Manager Patch Manager, and log analysis on the host itself. Roughly
+  six hours, cents of spend, and the instance is destroyed at the end of each window.
+  The point is to be able to answer a host troubleshooting question with evidence
+  instead of declaring the gap and stopping there. Runs after the main track, since it
+  competes with nothing on the certification path.
+
+- **M9 — operacao de host EC2 (opcional, pos-projeto).** O Fargate abstrai o sistema
+  operacional, entao nada entre M0 e M6 exercita administracao no nivel do host. Este
+  modulo fecha essa lacuna de forma deliberada: uma instancia `t4g.micro` (~USD
+  0,008/h), acesso via SSM Session Manager em vez de SSH ou endereco publico, patching
+  via Systems Manager Patch Manager, e analise de log no proprio host. Cerca de seis
+  horas, centavos de gasto, e a instancia e destruida ao fim de cada janela. O objetivo
+  e conseguir responder uma pergunta de troubleshooting de host com evidencia, em vez
+  de apenas declarar a lacuna. Roda depois da trilha principal, ja que nao compete com
+  nada no caminho da certificacao.

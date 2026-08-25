@@ -31,7 +31,7 @@ echo "Capturing evidence for $MILESTONE ..."
 
 {
   echo "# Account security"; echo "Captured: $TS"; echo
-  echo "Root MFA enabled (1=yes, 0=no): $(q iam get-account-summary --query 'SummaryMap.AccountMFAEnabled')"
+  echo "Root MFA:                       $(st x "$(q iam get-account-summary --query 'SummaryMap.AccountMFAEnabled')" 1)"
   echo "Root access keys present:       $(q iam get-account-summary --query 'SummaryMap.AccountAccessKeysPresent')"
   echo "IAM users:                      $(q iam get-account-summary --query 'SummaryMap.Users')"
   echo "IAM roles:                      $(q iam get-account-summary --query 'SummaryMap.Roles')"
@@ -85,7 +85,7 @@ st() { [ "$2" = "$3" ] && echo "PASS" || echo "FAIL"; }
   printf "# %s summary\n\n" "$MILESTONE"
   printf "%-26s %-10s %-10s %s\n" "CHECK" "EXPECTED" "ACTUAL" "STATUS"
   printf "%-26s %-10s %-10s %s\n" "--------------------------" "--------" "--------" "------"
-  printf "%-26s %-10s %-10s %s\n" "root MFA enabled"      "1" "$MFA"  "$(st x "$MFA" 1)"
+  printf "%-26s %-10s %-10s %s\n" "root MFA"              "-" "-"  "$(st x "$MFA" 1)"
   printf "%-26s %-10s %-10s %s\n" "root access keys"      "0" "$KEYS" "$(st x "$KEYS" 0)"
   printf "%-26s %-10s %-10s %s\n" "customer managed KMS"  "0" "$KMS"  "$(st x "$KMS" 0)"
   printf "%-26s %-10s %-10s %s\n" "nat gateways"          "0" "$NAT"  "$(st x "$NAT" 0)"

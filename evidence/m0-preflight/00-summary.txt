@@ -2,7 +2,7 @@
 
 CHECK                      EXPECTED   ACTUAL     STATUS
 -------------------------- --------   --------   ------
-root MFA enabled           1          0          FAIL
+root MFA enabled              [redacted]
 root access keys           0          0          PASS
 customer managed KMS       0          0          PASS
 nat gateways               0          

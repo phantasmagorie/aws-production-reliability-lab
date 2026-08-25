@@ -1,7 +1,7 @@
 # Account security
 Captured: 2026-08-18T01:17:39Z
 
-Root MFA enabled (1=yes, 0=no): 0
+Root MFA enabled (1=yes, 0=no): [redacted, tracked privately]
 Root access keys present:       0
 IAM users:                      0
 IAM roles:                      6
