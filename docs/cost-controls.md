@@ -15,7 +15,7 @@ Every billable resource carries these four tags:
 |---|---|---|
 | project | aws-reliability-lab | filter this lab's spend in Cost Explorer |
 | env | lab | separate from any future prod-like environment |
-| owner | @fantasmagorikus | accountability |
+| owner | @phantasmagorie | accountability |
 | managed-by | cloudformation \| terraform \| console | find anything created by hand |
 
 The managed-by tag is the important one: any resource tagged console was created
@@ -62,7 +62,7 @@ Todo recurso cobravel carrega estas quatro tags:
 |---|---|---|
 | project | aws-reliability-lab | filtrar o gasto deste laboratorio no Cost Explorer |
 | env | lab | separar de qualquer ambiente futuro parecido com producao |
-| owner | @fantasmagorikus | responsabilidade |
+| owner | @phantasmagorie | responsabilidade |
 | managed-by | cloudformation \| terraform \| console | achar o que foi criado manualmente |
 
 A tag managed-by e a mais importante: qualquer recurso marcado como console foi
