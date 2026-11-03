@@ -36,7 +36,7 @@ That gap is the entire argument for tearing down on exit.
 
 ### Required tags on every billable resource
 
-`project=aws-reliability-lab` · `env=lab` · `owner=@fantasmagorikus` ·
+`project=aws-reliability-lab` · `env=lab` · `owner=@phantasmagorie` ·
 `managed-by=cloudformation|terraform|console`
 
 `managed-by=console` marks anything created by hand, which no stack teardown will
@@ -170,7 +170,7 @@ a mais. Essa diferenca e todo o argumento para destruir ao sair.
 
 ### Tags obrigatorias em todo recurso cobravel
 
-`project=aws-reliability-lab` · `env=lab` · `owner=@fantasmagorikus` ·
+`project=aws-reliability-lab` · `env=lab` · `owner=@phantasmagorie` ·
 `managed-by=cloudformation|terraform|console`
 
 `managed-by=console` marca o que foi criado a mao, que nenhum teardown de stack
